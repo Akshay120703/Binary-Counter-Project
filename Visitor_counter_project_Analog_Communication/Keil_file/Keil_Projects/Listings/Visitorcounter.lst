@@ -1,0 +1,92 @@
+C51 COMPILER V9.60.7.0   VISITORCOUNTER                                                    04/24/2023 22:39:01 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE VISITORCOUNTER
+OBJECT MODULE PLACED IN .\Objects\Visitorcounter.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Visitorcounter.c RTX51 OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT
+                    -(.\Listings\Visitorcounter.lst) TABS(2) OBJECT(.\Objects\Visitorcounter.obj)
+
+line level    source
+
+   1          #include <REGX51.H>
+   2          #define segment P2
+   3          sbit dis1_cc = P3^0; //cc
+   4          sbit dis2_cc = P3^1; //cc
+   5          
+   6          sbit Entrance_sensor = P1^0; //Entrance push_button
+   7          sbit Exit_sensor     = P1^1; //Exit push_button
+   8          
+   9          void dely(unsigned int dly);
+  10          
+  11          void main(void)
+  12          { 
+  13   1                              /* 0    1    2    3    4    5    6    7    8   9*/
+  14   1      unsigned int nums[10] ={0x3F,0x06, 0X5B,0X4F,0x66,0X6D,0X7D,0X07,0X7F,0X6F};
+  15   1      unsigned int loop=0, loop2=0;
+  16   1      Entrance_sensor = 0;
+  17   1      Exit_sensor   = 0;
+  18   1      
+  19   1       while(1) 
+  20   1        {
+  21   2            if(Entrance_sensor == 1)
+  22   2            {
+  23   3              dely(80);
+  24   3              (loop >= 400) ? (loop = 400) : (loop++);  
+  25   3            }
+  26   2            else
+  27   2            {
+  28   3               /* do nothing */ 
+  29   3            }
+  30   2            
+  31   2            if(Exit_sensor == 1)
+  32   2            {
+  33   3              dely(80);
+  34   3              (loop != 0) ? (loop--) : (loop = 0); 
+  35   3            }
+  36   2            else
+  37   2            {
+  38   3             /* do nothing */
+  39   3            }
+  40   2          
+  41   2            loop2 = loop % 10; // 12%10 =2
+  42   2            
+  43   2            dis1_cc = 1; //off
+  44   2            dis2_cc = 0;//on
+  45   2            segment = nums[loop2];
+  46   2            dely(80);
+  47   2            
+  48   2            loop2 = loop / 10; //12/10= 1
+  49   2            dis1_cc = 0;//on
+  50   2            dis2_cc = 1;//off
+  51   2            segment = nums[loop2];
+  52   2            dely(80);
+  53   2            
+  54   2          
+C51 COMPILER V9.60.7.0   VISITORCOUNTER                                                    04/24/2023 22:39:01 PAGE 2   
+
+  55   2          
+  56   2      
+  57   2        }
+  58   1      
+  59   1      }
+  60          void dely(unsigned int dly)
+  61          {
+  62   1        unsigned int loop =0;
+  63   1        unsigned int delay_gen =0;
+  64   1        for(loop =0; loop < dly; loop++)
+  65   1        for(delay_gen =0; delay_gen < 1000; delay_gen++); 
+  66   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    187    ----
+   CONSTANT SIZE    =     20    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      24
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,3 @@
+".\Objects\Visitorcounter.obj" 
+TO ".\Objects\Visitorcounter" RTX51 
+PRINT(".\Listings\Visitorcounter.m51")
